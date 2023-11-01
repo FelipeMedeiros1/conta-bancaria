@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static banco.CadastroConta.cadastrarConta;
-import static banco.CadastroConta.verContasCadastradas;
+import static banco.CadastroConta.*;
 
 public class ContaTerminal {
 
@@ -18,7 +17,8 @@ public class ContaTerminal {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Cadastrar conta");
             System.out.println("2 - Ver contas cadastradas");
-            System.out.println("3 - Sair");
+            System.out.println("3 - Buscar conta por número");
+            System.out.println("4 - Sair");
             System.out.print("Opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -31,13 +31,16 @@ public class ContaTerminal {
                     verContasCadastradas(contas);
                     break;
                 case 3:
+                    buscarPorNumeroDaConta(scanner,  contas);
+                    break;
+                case 4:
                     System.out.println("Encerrando o programa.");
                     break;
                 default:
                     System.out.println("Opção inválida. Escolha uma opção válida.");
                     break;
             }
-        }while (opcao !=3);
+        }while (opcao !=4);
 
         scanner.close();
     }

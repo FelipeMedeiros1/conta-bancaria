@@ -1,6 +1,7 @@
 package banco;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CadastroConta {
@@ -52,6 +53,28 @@ public class CadastroConta {
             System.out.println("**************************************************************************");
         });
     }
+    public static void buscarPorNumeroDaConta(Scanner scanner, List<Conta> contas) {
+        System.out.println("**************************************************************************");
+        System.out.print("NÚMERO DA CONTA: ");
+        int numeroContaProcurada = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conta> contaEncontrada = contas.stream().filter(conta -> conta.getNumero() == numeroContaProcurada).findFirst();
+
+        if (contaEncontrada.isPresent()) {
+            Conta conta = contaEncontrada.get();
+            System.out.println("Conta encontrada:");
+            System.out.println("Nome do Cliente: " + conta.getNomeCliente().getNome());
+            System.out.println("Agência: " + conta.getAgencia());
+            System.out.println("Número da Conta: " + conta.getNumero());
+            System.out.println("Saldo: R$" + conta.getSaldo());
+            System.out.println("**************************************************************************");
+        } else {
+            System.out.println("Conta não encontrada.");
+            System.out.println("**************************************************************************");
+        }
+    }
+
 
 
 }
