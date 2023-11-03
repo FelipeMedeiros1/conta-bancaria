@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38977d14-7b5a-429a-835f-295d8a29a356" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/banco/ContaCorrente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/banco/ContaPoupanca.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/banco/IConta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/banco/CadastroConta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/banco/CadastroConta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/banco/Conta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/banco/Conta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/banco/ContaTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/banco/ContaTerminal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +22,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -48,6 +53,11 @@
     "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="banco" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="ContaTerminal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="banco.ContaTerminal" />

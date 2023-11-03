@@ -5,9 +5,10 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class CadastroConta {
+    private static final String SEPARADOR = "**************************************************************************";
 
-    public static  void cadastrarConta(Scanner scanner, List<Conta> contas) {
-        System.out.println("**************************************************************************");
+    public static void cadastrarConta(Scanner scanner, List<Conta> contas, String tipoConta) {
+        System.out.println(SEPARADOR);
 
         System.out.print("NÚMERO DA AGÊNCIA: ");
         String agencia = scanner.nextLine();
@@ -24,57 +25,146 @@ public class CadastroConta {
         scanner.nextLine();
 
         boolean contaExistente = contas.stream().anyMatch(conta -> conta.getNumero() == numero);
-        System.out.println("**************************************************************************");
+        System.out.println(SEPARADOR);
 
         if (contaExistente) {
             System.out.println("Essa conta já existe. Não é possível cadastrá-la novamente.");
-            System.out.println("**************************************************************************");
+            System.out.println(SEPARADOR);
         } else {
             Cliente cliente = new Cliente(nomeCliente);
-            Conta conta = new Conta(numero, agencia, cliente, saldo);
+            Conta conta = criarConta(tipoConta, numero, agencia, cliente, saldo);
             contas.add(conta);
             System.out.println("Conta cadastrada com sucesso.");
-            System.out.println("Olá " + conta.getNomeCliente().getNome() + ",\nobrigado por criar uma conta em nosso banco,\nsua agência é "
-                    + conta.getAgencia() + ", conta " + conta.getNumero() + " \ne o saldo de R$ " + conta.getSaldo() + " já está disponível para saque.");
-            System.out.println("**************************************************************************");
+            mostrarDadosConta(conta);
+            System.out.println(SEPARADOR);
         }
+    }
+    private static void mostrarDadosConta(Conta conta) {
+        System.out.println("Olá " + conta.getNomeCliente().getNome() + ",\nsua agência é: "
+                + conta.getAgencia() + ", \nnúmero da conta: " + conta.getNumero() + " \ne o saldo de R$ " + conta.getSaldo() + " já está disponível para saque.");
+    }
+
+    public static Conta criarConta(String tipoConta, int numero, String agencia, Cliente cliente, double saldo) {
+        if ("corrente".equals(tipoConta)) {
+            return new ContaCorrente(numero, agencia, cliente, saldo);
+        } else if ("poupanca".equals(tipoConta)) {
+            return new ContaPoupanca(numero, agencia, cliente, saldo);
+        } else {
+            throw new IllegalArgumentException("Tipo de conta desconhecido: " + tipoConta);
+        }
+    }
+    public static void cadastrarContaCorrente(Scanner scanner, List<Conta> contas) {
+        System.out.println("Cadastrar Conta Corrente");
+        CadastroConta.cadastrarConta(scanner, contas, "corrente");
+        System.out.println(SEPARADOR);
+    }
+
+    public static void cadastrarContaPoupanca(Scanner scanner, List<Conta> contas) {
+        System.out.println("Cadastrar Conta Poupança");
+        CadastroConta.cadastrarConta(scanner, contas, "poupanca");
+        System.out.println(SEPARADOR);
     }
 
     public static void verContasCadastradas(List<Conta> contas) {
-        System.out.println("**************************************************************************");
+        System.out.println(SEPARADOR);
         System.out.println("Contas cadastradas:");
 
         contas.forEach(conta -> {
             System.out.println("Nome do Cliente: " + conta.getNomeCliente().getNome());
             System.out.println("Agência: " + conta.getAgencia());
             System.out.println("Número da Conta: " + conta.getNumero());
-            System.out.println("Saldo: R$" + conta.getSaldo());
-            System.out.println();
-            System.out.println("**************************************************************************");
+            System.out.println("Saldo: " + conta.getSaldo());
+            System.out.println(SEPARADOR);
         });
     }
-    public static void buscarPorNumeroDaConta(Scanner scanner, List<Conta> contas) {
-        System.out.println("**************************************************************************");
+    public static void realizarDeposito(Scanner scanner, List<Conta> contas) {
+        System.out.print("NÚMERO DA CONTA PARA DEPÓSITO: ");
+        int numeroConta = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conta> contaEncontrada = contas.stream().filter(conta -> conta.getNumero() == numeroConta).findFirst();
+
+        if (contaEncontrada.isPresent()) {
+            Conta conta = contaEncontrada.get();
+            System.out.print("VALOR A SER DEPOSITADO: ");
+            double valorDeposito = scanner.nextDouble();
+            scanner.nextLine();
+            conta.depositar(valorDeposito);
+            System.out.println("DEPÓSITO REALIZADO COM SUCESSO.");
+        } else {
+            System.out.println("CONTA NÃO ENCONTRADA.");
+        }
+        System.out.println(SEPARADOR);
+    }
+    public static void realizarSaque(Scanner scanner, List<Conta> contas) {
+        System.out.print("NÚMERO DA CONTA PARA SAQUE: ");
+        int numeroConta = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conta> contaEncontrada = contas.stream().filter(conta -> conta.getNumero() == numeroConta).findFirst();
+
+        if (contaEncontrada.isPresent()) {
+            Conta conta = contaEncontrada.get();
+            System.out.print("VALOR DO SAQUE: ");
+            double valorSaque = scanner.nextDouble();
+            scanner.nextLine();
+            conta.sacar(valorSaque);
+
+        } else {
+            System.out.println("CONTA NÃO ENCONTRADA.");
+        }
+        System.out.println(SEPARADOR);
+    }
+    public static void realizarTransferencia(Scanner scanner, List<Conta> contas) {
+        System.out.println(SEPARADOR);
+        System.out.print("NÚMERO DA CONTA DE ORIGEM: ");
+        int numeroContaOrigem = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("NÚMERO DA CONTA DE DESTINO: ");
+        int numeroContaDestino = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conta> contaOrigem = contas.stream().filter(conta -> conta.getNumero() == numeroContaOrigem).findFirst();
+
+        Optional<Conta> contaDestino = contas.stream().filter(conta -> conta.getNumero() == numeroContaDestino).findFirst();
+
+        if (contaOrigem.isPresent() && contaDestino.isPresent()) {
+            Conta origem = contaOrigem.get();
+            Conta destino = contaDestino.get();
+            System.out.print("VALOR A SER TRANSFERIDO: ");
+            double valorTransferencia = scanner.nextDouble();
+            scanner.nextLine();
+
+            if (origem.getSaldo() >= valorTransferencia) {
+                origem.sacar(valorTransferencia);
+                destino.depositar(valorTransferencia);
+                System.out.println("TRANSFERÊNCIA REALIZADA COM SUCESSO.");
+            } else {
+                System.out.println("SALDO INSUFICIENTE PARA TRANSFERIR.");
+            }
+        } else {
+            System.out.println("CONTA DE ORIGEM OU CONTA DE DESTINO NÃO ENCONTRADA.");
+        }
+        System.out.println(SEPARADOR);
+    }
+    public static void extrato(Scanner scanner, List<Conta> contas) {
+        System.out.println(SEPARADOR);
         System.out.print("NÚMERO DA CONTA: ");
         int numeroContaProcurada = scanner.nextInt();
         scanner.nextLine();
 
-        Optional<Conta> contaEncontrada = contas.stream().filter(conta -> conta.getNumero() == numeroContaProcurada).findFirst();
+        Optional<Conta> extrato = contas.stream().filter(conta -> conta.getNumero() == numeroContaProcurada).findFirst();
 
-        if (contaEncontrada.isPresent()) {
-            Conta conta = contaEncontrada.get();
-            System.out.println("Conta encontrada:");
-            System.out.println("Nome do Cliente: " + conta.getNomeCliente().getNome());
-            System.out.println("Agência: " + conta.getAgencia());
-            System.out.println("Número da Conta: " + conta.getNumero());
-            System.out.println("Saldo: R$" + conta.getSaldo());
-            System.out.println("**************************************************************************");
+        if (extrato.isPresent()) {
+            Conta conta = extrato.get();
+            mostrarDadosConta(conta);
+            System.out.println(SEPARADOR);
         } else {
             System.out.println("Conta não encontrada.");
-            System.out.println("**************************************************************************");
+            System.out.println(SEPARADOR);
         }
     }
-
 
 
 }

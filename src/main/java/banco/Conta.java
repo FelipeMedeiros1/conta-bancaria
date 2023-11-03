@@ -2,7 +2,7 @@ package banco;
 
 import java.util.Objects;
 
-public class Conta {
+public abstract  class Conta implements IConta {
     private int numero;
     private String agencia;
     private Cliente nomeCliente;
@@ -14,6 +14,20 @@ public class Conta {
         this.nomeCliente = nomeCliente;
         this.saldo = saldo;
     }
+    public abstract Conta criarConta(int numero, String agencia, Cliente nomeCliente, double saldo);
+
+    public void sacar(double valor) {
+        if (saldo >= valor) {
+            saldo -= valor;
+            System.out.println("SAQUE REALIZADO COM SUCESSO.");
+        } else {
+            System.out.println("SALDO INSUFICIENTE.");
+        }
+    }
+    public void depositar(double valor) {
+        saldo += valor;
+    }
+
 
     public int getNumero() {
         return numero;
