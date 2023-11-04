@@ -1,14 +1,16 @@
 package banco;
 
+import jdk.jfr.DataAmount;
+import lombok.Data;
+import lombok.Getter;
+
+
+@Getter
 public class Cliente {
     private String nome;
 
     public Cliente(String nomeCliente) {
         this.nome = nomeCliente;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
 }
