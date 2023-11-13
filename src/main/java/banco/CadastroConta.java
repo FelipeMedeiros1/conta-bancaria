@@ -45,9 +45,9 @@ public class CadastroConta {
     }
 
     public static Conta criarConta(String tipoConta, int numero, String agencia, Cliente cliente, double saldo) {
-        if ("corrente".equals(tipoConta)) {
+        if (tipoConta.equals("corrente")) {
             return new ContaCorrente(numero, agencia, cliente, saldo);
-        } else if ("poupanca".equals(tipoConta)) {
+        } else if (tipoConta.equals("poupanca")) {
             return new ContaPoupanca(numero, agencia, cliente, saldo);
         } else {
             throw new IllegalArgumentException("Tipo de conta desconhecido: " + tipoConta);
@@ -68,6 +68,7 @@ public class CadastroConta {
     public static void verContasCadastradas(List<Conta> contas) {
         System.out.println(SEPARADOR);
         System.out.println("Contas cadastradas:");
+        System.out.println(SEPARADOR);
 
         contas.forEach(conta -> {
             System.out.println("Nome do Cliente: " + conta.getNomeCliente().getNome());
