@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static banco.CadastroConta.*;
-
 public class ContaTerminal {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Conta> contas = new ArrayList<>();
 
-        int opcao;
+        int opcao ;
         do {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Cadastrar Conta Corrente");
@@ -28,37 +26,22 @@ public class ContaTerminal {
             scanner.nextLine();
 
             switch (opcao) {
-                case 1:
-                    cadastrarContaCorrente(scanner, contas);
-                    break;
-                case 2:
-                    cadastrarContaPoupanca(scanner, contas);
-                    break;
-                case 3:
-                    verContasCadastradas(contas);
-                    break;
-                case 4:
-                    extrato(scanner, contas);
-                    break;
-                case 5:
-                    realizarDeposito(scanner, contas);
-                    break;
-                case 6:
-                    realizarSaque(scanner, contas);
-                    break;
-                case 7:
-                    realizarTransferencia(scanner, contas);
-                    break;
-                case 8:
-                    System.out.println("Encerrando o programa.");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Escolha uma opção válida.");
-                    break;
+                case 1 -> new CadastrarConta().cadastrarContaCorrente(scanner, contas);
+                case 2 -> new CadastrarConta().cadastrarContaPoupanca(scanner, contas);
+                case 3 -> new CadastrarConta().verContasCadastradas(contas);
+                case 4 -> new CadastrarConta().extrato(scanner, contas);
+                case 5 -> new CadastrarConta().realizarDeposito(scanner, contas);
+                case 6 -> new CadastrarConta().realizarSaque(scanner, contas);
+                case 7 -> new CadastrarConta().realizarTransferencia(scanner, contas);
+                case 8 -> System.out.println("Encerrando o programa.");
+                default -> System.out.println("Opção inválida. Escolha uma opção válida.");
             }
         } while (opcao != 8);
 
         scanner.close();
     }
+
+
+
 
 }

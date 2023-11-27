@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class CadastroConta {
+public class CadastrarConta {
     private static final String SEPARADOR = "**************************************************************************";
 
-    public static void cadastrarConta(Scanner scanner, List<Conta> contas, String tipoConta) {
+    private void cadastrarConta(Scanner scanner, List<Conta> contas, String tipoConta) {
         System.out.println(SEPARADOR);
 
         System.out.print("NÚMERO DA AGÊNCIA: ");
@@ -39,12 +39,13 @@ public class CadastroConta {
             System.out.println(SEPARADOR);
         }
     }
-    private static void mostrarDadosConta(Conta conta) {
+
+    private void mostrarDadosConta(Conta conta) {
         System.out.println("Olá " + conta.getNomeCliente().getNome() + ",\nsua agência é: "
                 + conta.getAgencia() + ", \nnúmero da conta: " + conta.getNumero() + " \ne o saldo de R$ " + conta.getSaldo() + " já está disponível para saque.");
     }
 
-    public static Conta criarConta(String tipoConta, int numero, String agencia, Cliente cliente, double saldo) {
+    private Conta criarConta(String tipoConta, int numero, String agencia, Cliente cliente, double saldo) {
         if (tipoConta.equals("corrente")) {
             return new ContaCorrente(numero, agencia, cliente, saldo);
         } else if (tipoConta.equals("poupanca")) {
@@ -53,19 +54,20 @@ public class CadastroConta {
             throw new IllegalArgumentException("Tipo de conta desconhecido: " + tipoConta);
         }
     }
-    public static void cadastrarContaCorrente(Scanner scanner, List<Conta> contas) {
+
+    public void cadastrarContaCorrente(Scanner scanner, List<Conta> contas) {
         System.out.println("Cadastrar Conta Corrente");
-        CadastroConta.cadastrarConta(scanner, contas, "corrente");
+        cadastrarConta(scanner, contas, "corrente");
         System.out.println(SEPARADOR);
     }
 
-    public static void cadastrarContaPoupanca(Scanner scanner, List<Conta> contas) {
+    public void cadastrarContaPoupanca(Scanner scanner, List<Conta> contas) {
         System.out.println("Cadastrar Conta Poupança");
-        CadastroConta.cadastrarConta(scanner, contas, "poupanca");
+        cadastrarConta(scanner, contas, "poupanca");
         System.out.println(SEPARADOR);
     }
 
-    public static void verContasCadastradas(List<Conta> contas) {
+    public void verContasCadastradas(List<Conta> contas) {
         System.out.println(SEPARADOR);
         System.out.println("Contas cadastradas:");
         System.out.println(SEPARADOR);
@@ -78,7 +80,8 @@ public class CadastroConta {
             System.out.println(SEPARADOR);
         });
     }
-    public static void realizarDeposito(Scanner scanner, List<Conta> contas) {
+
+    public void realizarDeposito(Scanner scanner, List<Conta> contas) {
         System.out.print("NÚMERO DA CONTA PARA DEPÓSITO: ");
         int numeroConta = scanner.nextInt();
         scanner.nextLine();
@@ -97,7 +100,8 @@ public class CadastroConta {
         }
         System.out.println(SEPARADOR);
     }
-    public static void realizarSaque(Scanner scanner, List<Conta> contas) {
+
+    public void realizarSaque(Scanner scanner, List<Conta> contas) {
         System.out.print("NÚMERO DA CONTA PARA SAQUE: ");
         int numeroConta = scanner.nextInt();
         scanner.nextLine();
@@ -116,7 +120,8 @@ public class CadastroConta {
         }
         System.out.println(SEPARADOR);
     }
-    public static void realizarTransferencia(Scanner scanner, List<Conta> contas) {
+
+    public void realizarTransferencia(Scanner scanner, List<Conta> contas) {
         System.out.println(SEPARADOR);
         System.out.print("NÚMERO DA CONTA DE ORIGEM: ");
         int numeroContaOrigem = scanner.nextInt();
@@ -149,7 +154,8 @@ public class CadastroConta {
         }
         System.out.println(SEPARADOR);
     }
-    public static void extrato(Scanner scanner, List<Conta> contas) {
+
+    public void extrato(Scanner scanner, List<Conta> contas) {
         System.out.println(SEPARADOR);
         System.out.print("NÚMERO DA CONTA: ");
         int numeroContaProcurada = scanner.nextInt();
